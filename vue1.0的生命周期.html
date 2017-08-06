@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue生命周期</title>
+    <script src="lib/vue-1.0.js"></script>
+</head>
+<body>
+<div id="div1">
+    {{msg}}
+</div>
+<script type="application/javascript">
+    var vm=new Vue({
+        data:{
+            msg:"Hello World"
+        },
+        created:function () {
+            alert("vue对象被创建")
+        },beforeCompile:function () {
+            alert('编译html模板之前')
+        },compiled:function () {
+            alert('编译之后')
+        },ready:function () {
+            alert('准备好了')
+        },beforeDestroy:function () {
+                alert('销毁之前')
+
+        },destroyed:function () {
+            alert('已经销毁')
+        }
+    });
+    //手动绑定Dom元素，指定选择器
+    alert("aaaa");
+    vm.$mount("#div1");
+    alert("bbbb");
+    //取消绑定，销毁vue对象
+    vm.$destroy();
+    alert("cccc")
+</script>
+</body>
+</html>

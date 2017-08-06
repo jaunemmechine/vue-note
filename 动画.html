@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画</title>
+    <style>
+        /*正常状态*/
+        .div1{
+            background-color: #00d6b2;
+            width: 200px;
+            height: 200px;
+        }
+       /* vue1.0 !*元素将要在页面显示出来的起始状态*!
+        .myanim-enter{
+            width: 0px;
+            height:0px;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        !*动画的持续时间*!
+        .myanim-transition {
+            -webkit-transition: 1s linear;
+            -moz-transition: 1s linear;
+            -ms-transition: 1s linear;
+            -o-transition: 1s linear;
+            transition: 1s linear;
+        }
+
+        !*元素将要完全从在页面消失的起状态*!
+
+        .myanim-leave{
+            width: 100px;
+            opacity: 0;
+
+        }*/
+        /*vue2.0*/
+        /*.myanim-enter{
+            background-color: #2b542c;
+            width: 100px;
+            height: 100px;
+
+        }
+        .myanim-enter-active{
+            -webkit-transition: 1s linear ;
+            -moz-transition: 1s linear;
+            -ms-transition: 1s linear ;
+            -o-transition: 1s linear;
+            transition: 1s linear ;
+        }
+        .myanim-leave{
+
+
+        }
+        .myanim-leave-active{
+            background-color: #000;
+            width: 0px;
+            height: 0px;
+            -webkit-transition: 3s linear ;
+            -moz-transition: 3s linear;
+            -ms-transition: 3s linear ;
+            -o-transition: 3s linear;
+            transition: 3s linear ;
+
+        }*/
+    </style>
+</head>
+<body>
+<div id="myapp">
+    <button @click="flag=!flag">显示或隐藏</button>
+    <!--vue1.0-->
+    <!--<div class="div1 animated" v-show="flag" transition="myanim"></div>-->
+        <!--vue2.0-->
+        <transition name="myanim">
+            <div class="div1"  v-show="flag"></div>
+        </transition>
+</div>
+</body>
+<script src="lib/vue-2.0.js"></script>
+<script type="application/javascript">
+    var vm=new Vue({
+        el:"#myapp",
+        data:{
+            flag:true
+        },
+        transitions:{
+            myanim:{
+                enterClass:"fadeInLeft",
+                leaveClass:"fadeOutLeft"
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第一个vue</title>
+</head>
+<body>
+<div id="div1">
+    {{msg}}
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script src="lib/vue-1.0.js"></script>
+<script type="application/javascript">
+    /*vm对象是一个Vue的对象实例，它本身就是viewModul视图模型，相当于ng当中的$scope*/
+    var vm=new Vue({
+        el:"#div1",//这个el就是选择器
+        data:{
+            msg:"hello world"
+    }
+    })
+</script>
+</body>
+</html>

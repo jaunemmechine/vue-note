@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据绑定</title>
+</head>
+<body>
+<div class="div1">
+     姓名：{{stu.name}}<br>
+    年龄：{{stu.age}}<br>
+    姓名：{{name}}年龄{{age}}
+
+</div>
+<div class="div2">
+    {{stu.name}}和{{stu.age}}
+</div>
+<script src="lib/vue-1.0.js"></script>
+<script type="application/javascript">
+    /*vm对象是一个Vue的对象实例，它本身就是viewModul视图模型，相当于ng当中的$scope*/
+    var student1={
+        name:'jack',
+        age:18
+    }
+    var student2={
+        name:'tom',
+        age:19
+    }
+    var vm=new Vue({
+        el:".div1",//这个el就是选择器
+        /*data:student*/
+        data:{
+            stu:student1
+        }
+    })
+    alert('数据已绑定，选择器是 '+vm.$el);
+  /*  vm.stu=student2;*/
+  //vm中的数据是可以多次重复绑定
+    vm.$data=student2;
+    /*属性保存的是选择器的DOM对象*/
+    vm.$el=".div2"
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+</head>
+<body>
+<div id="div1">
+   总价格： {{sum}}
+</div>
+<script src="lib/vue-1.0.js"></script>
+<script type="application/javascript">
+
+    var vm=new Vue({
+        el:"#div1",
+        data:{
+            price:52.5,
+            count:3
+    },computed:{
+                sum:{
+                    //get函数读取器
+                    get:function()
+                    {
+                        console.log('正在读取sum');
+                        return this.price*this.count;
+                    },
+                    //设置修改属性的值
+                    //set函数写入器
+                    set:function (val) {
+                        console.log('正在写入sum');
+                        this.price=60
+
+                    }
+                }
+
+        }
+    });
+    console.log(vm.sum);
+    alert('aaaa');
+    vm.sum=100;
+</script>
+</body>
+</html>

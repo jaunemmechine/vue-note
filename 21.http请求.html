@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <div id="myapp">
+       <button @click="getUser">Get方式获取数据</button>
+       <button @click="postUser">Post方式发送数据</button>
+       <button @click="jsonpData">JSONP方式获取数据</button><br>
+
+    {{msg}}
+
+   </div>
+
+</body>
+<script src="lib/js/vue-2.0.js"></script>
+<script src="lib/js/vue-resource.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#myapp",
+        data:{
+            msg :""
+        },
+        methods:{
+            getUser:function()
+            {
+                this.$http.get("/user?name=jack",{name:'jack'}).then(function (res) {
+                    console.log(res);
+                    this.msg = res.body;
+                })
+                
+            },
+            //post提交数据
+            postUser:function () {
+               this.$http.post("/user",{username:'jack',age:22}).then(function (res) {
+                   console.log(res.body);
+                   this.msg=res.body;
+               })
+
+            },
+
+            jsonpData:function () {
+                this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                    params:{
+                        wd:'卓'//百度自动完成的搜索框jsonp接口,wd是搜索关键字
+                    },
+                    jsonp:'cb'//cb是接口要求的回调函数名,必须叫做cb
+                }).then(function (res) {
+                    console.log(res.body.s);
+                })
+
+                
+            }
+        }
+    })
+</script>
+</html>

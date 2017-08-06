@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改数据</title>
+</head>
+<body>
+<div class="div1">
+   <!-- 姓名：{{name}}<br>
+    年龄：{{age}}<br>-->
+     姓名：{{stu.name}}<br>
+    年龄：{{stu.age}}<br>
+
+</div>
+<script src="lib/vue-1.0.js"></script>
+<script type="application/javascript">
+    /*vm对象是一个Vue的对象实例，它本身就是viewModul视图模型，相当于ng当中的$scope*/
+    var student={
+        name:'jack',
+        age:18
+    }
+    var vm=new Vue({
+        el:".div1",//这个el就是选择器
+        /*data:student*/
+        data:{
+            stu:student
+        }
+    })
+    //vm中的数据，可以直接使用vm.数据名访问
+    console.log(vm.stu);
+    console.log(vm.stu===student);
+    vm.stu.age=28;
+    console.log(student.age)
+    alert(student.name);
+    student.name='tom'
+
+</script>
+</body>
+</html>

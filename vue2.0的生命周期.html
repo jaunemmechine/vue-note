@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue2.0的生命周期</title>
+</head>
+<body>
+<script src="lib/vue-2.0.js"></script>
+<script>
+    var vm=new Vue({//数据选项
+        data:{
+            msg:"Hello"
+        },
+        methods:{
+            updateData:function () {
+                console.log("修改数据");
+                this.msg="aaaa";
+            }
+        },
+        beforeCreate:function(){
+            alert("创建之前");
+        },
+        created:function(){
+            alert("创建完毕");
+        },
+
+        beforeMount:function() {
+            alert("挂载之前");
+        },
+        //相当于vue1.0 之前的ready
+        mounted:function(){
+            alert("挂载完毕");
+        },
+        //在修改之前执行
+        beforeUpdate:function(){
+            alert("更新之前");
+        },
+        //在修改之后执行
+        update:function(){
+            alert("更新完毕");
+        },
+        beforeDestroy:function(){
+            alert("销毁之前");
+        },
+        destroyed:function(){
+            alert("已销毁");
+        }
+    });
+    //手动绑定dom元素，指定选择器
+    alert("aaa");
+    vm.$mount(".div1");
+    //销毁vue对象
+    alert("bbb");
+    vm.$destroy();
+    alert("ccc");
+
+
+
+</script>
+</body>
+</html>

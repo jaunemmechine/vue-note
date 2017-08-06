@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>watch</title>
+</head>
+<body>
+<div class="div1">
+    <input type="text" v-model="msg"><br>
+    {{msg}}<br>
+</div>
+
+<script src="lib/vue-1.0.js"></script>
+<script type="application/javascript">
+
+    var vm=new Vue({
+        el:".div1",//这个el就是选择器
+        data:{
+            msg:'hello world'
+        }
+    })
+    vm.$watch('msg',function (newdata,olddata) {
+        console.log('新数据：'+newdata);
+        console.log("旧数据："+olddata);
+    })
+
+
+</script>
+</body>
+</html>

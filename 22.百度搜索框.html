@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百度搜索框</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+</head>
+<body>
+  <div id="myapp">
+      search: <input type="text" @keyup="search" @keydown.up.prevent="up"
+                     @keydown.down="down"  class="form-control" v-model="querykey">
+      <!--ul中显示自动提示-->
+      <ul class="list-group">
+          <li v-for="(d,key) in datas" class="list-group-item" :class="{active:index==key}">{{d}}</li>
+      </ul>
+  </div>
+
+</body>
+<script src="lib/vue2.0.js"></script>
+<script src="lib/vue-resource.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#myapp",
+        data:{
+            querykey:'',
+            datas:[], //datas保存从百度获取的搜索关键字列表
+            index:-1
+        },
+        methods:{
+            up:function(){
+                if(this.index<=0)
+                {
+                     this.index=this.datas.length-1;
+                }else{
+                    this.index--;
+                }
+                this.querykey=this.datas[this.index];
+            },
+            down:function(){
+                if(this.index>=this.datas.length-1)
+                {
+                    this.index=0;
+                }else{
+                    this.index++;
+                }
+                this.querykey=this.datas[this.index];
+            },
+            search:function (e) {
+                var keyCode= e.keyCode;//获得事件的按键编码
+                //阻止按上下键搜索
+                if(keyCode ==38 || keyCode == 40) return;
+                if(keyCode ==13)
+                {
+                    //按回车打开新窗口
+                    return window.open("https://www.baidu.com/s?wd="+this.querykey);
+                }
+                this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                    params:{
+                        wd:this.querykey,
+                    },
+                    jsonp:'cb'
+                }).then(function (res) {
+                     this.datas = res.body.s;
+                })
+            }
+        }
+
+    })
+
+</script>
+</html>

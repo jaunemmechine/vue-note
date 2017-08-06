@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+</head>
+<body>
+<div id="div1">
+    {{msg}}<br>
+    {{msg |uppercase}}<br>
+    {{'hello' |capitalize 2 4}}<br>
+    {{msg |lowercase}}<br>
+    {{money}}--{{money|currency "$" 3}}<br>
+    <!--映射到 pluralize对应的数组单元，单元数最多到9单元,以最后一个数字为映射-->
+    {{9|pluralize 'item1' 'item2' 'item3' 'item4' 'item5' 'item6' 'item7' 'item8' 'item9'}}<br>
+    <pre>{{stu|json}}</pre><br>
+    <!--延迟执行事件，单位是毫秒-->
+    <input type="text" @keyup.enter="show | debounce 1000">
+    <!--限制输出-->
+    <button @click="count+=pageSize">下一页</button>
+    <button @click="count-=pageSize">上一页</button>
+    <div v-for="s in stus|limitBy pageSize count"><!--显示2条，跳过4条-->
+        {{s.name}}
+    </div>
+    <br>
+    <button @click="order=order*-1">排序切换</button>
+    <div v-for="s in stus|orderBy 'age' order"><!--加-1 表降序-->
+        {{s.name}}:{{s.age}}
+    </div>
+    <hr>
+    过滤条件<br>
+    在所有对象属性中筛选
+    <div v-for="s in stus | filterBy 'tom1'"><!--默认是在所有对象属性中筛选-->
+        {{s.name}}
+    </div>
+    <br>
+    只在name属性中筛选
+    <div v-for="s in stus | filterBy 'tom1' in 'name'">
+        {{s.name}}
+    </div>
+</div>
+<script src="lib/vue-1.0.js"></script>
+<script type="application/javascript">
+    /*自定义过滤器*/
+    Vue.filter("capitalize",function (value,begin,end) {
+        return value.slice(0,begin)+value.slice(begin,end).toUpperCase()+value.slice(end)
+
+    });
+
+
+    /*vm对象是一个Vue的对象实例，它本身就是viewModul视图模型，相当于ng当中的$scope*/
+    var vm=new Vue({
+        el:"#div1",//这个el就是选择器
+        data:{
+            order:1,
+            msg:'hello world',
+            stu:{name:"tom",age:18},
+            stus:[{name:"tom1",age:18},
+                {name:"tom2",age:19},
+                {name:"tom3",age:20},
+                {name:"tom4",age:21,mes:'tom11'},
+                {name:"tom5",age:28},
+                {name:"tom6",age:23},
+                {name:"tom7",age:24},
+                {name:"tom11",age:14}
+            ],
+            money:1242323.232,
+            pageSize:3,
+            page:1,
+            count:0,
+        },
+        methods:{
+            show:function () {
+                alert('我延迟了')
+            },
+            // 切换下一页
+            next:function () {
+                this.page++;
+                this.count=(this.page-1)*this.pageSize;
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

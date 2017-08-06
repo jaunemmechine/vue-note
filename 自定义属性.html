@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue自定义属性</title>
+</head>
+<body>
+<div id="myapp">
+    <div v-show="false">这是一个隐藏的盒子</div>
+    <div v-myborder="color">这是一个带边框的盒子</div>
+</div>
+</body>
+<script src="lib/vue-2.0.js"></script>
+<script type="application/javascript">
+    //第一个参数是指令的名称  第二个参数是
+    //vue1.0 自定义属性方式
+   /* Vue.directive('myborder',function (param) {
+        //vue中的指令其实就是根据选定的元素进行DOM元素做对应的DOM操作
+        //this.el 获取绑定的DOM元素
+        console.log(this.el);
+        console.log('param='+param);
+        this.el.style.border="1px solid "+param;
+    });*/
+   //vue2.0的定义方式
+    Vue.directive('myborder',function (el,binding) {
+        el.style.border="1px solid "+binding.value;
+
+    })
+    var vm =new Vue({
+        el:"#myapp",
+        data:{
+            color:"green"
+
+        }
+    })
+</script>
+</html>

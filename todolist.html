@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todolist</title>
+    <link rel="stylesheet" href="lib/css/todolist.css">
+</head>
+<body>
+<div class="container">
+    <h1>todos</h1>
+    <div class="header">
+        <!--全选按钮-->
+        <input type="checkbox" v-model="checkAll">
+        <!--输入的代办事项内容-->
+        <input type="text" v-model="todo" @keyup.enter="addTodo">
+    </div>
+    <ul class="list">
+        <li v-for="t in todolist | myfilter currentStatus" @mouseenter="t.isShow=true" @mouseleave="t.isShow=false">
+            <input type="checkbox" class="my-list" v-model="t.selected">
+            <div class="list-content">
+                <label class="label">{{t.value}}</label>
+                <input class="content" type="text" v-show="t.isShow" v-model="t.value">
+                <button class="button" v-show="t.isShow" @click="remove(t)">删除</button>
+            </div>
+        </li>
+    </ul>
+    <div class="footer">
+        <span>未完成{{count}}</span>
+        <ul>
+            <li :class="{'active':currentStatus=='all'}" @click="currentStatus='all'">全部</li>
+            <li :class="{'active':currentStatus=='active'}" @click="currentStatus='active'">未完成</li>
+            <li :class="{'active':currentStatus=='completed'}" @click="currentStatus='completed'">已完成</li>
+        </ul>
+        <button class="clear" @click="removecompleted">清除已完成</button>
+    </div>
+</div>
+
+
+</body>
+<script src="lib/vue-1.0.js"></script>
+<script>
+    //自定义过滤器，用来过滤列表数据项
+    Vue.filter('myfilter', function (value,begin,end) {
+        if(begin=='all'){
+            return value;
+        }else if(begin =='active'){
+            return value.filter(function (item) {
+                return !item.selected;
+            })
+        }else if(begin =='completed'){
+            return value.filter(function (item) {
+                return item.selected;
+            })
+        }
+    });
+    var vm=new Vue({
+        el:'.container',
+        data:{
+            todolist:[],//已有任务列表
+            todo:'',//新增任务
+            checkAll:false,//需要修改所有的item的selected属性
+            currentStatus:'all'
+        },
+        watch:{
+            todolist:{
+                handler:function(val,oldval) {
+                  console.log(val,oldval)
+                },
+                deep:true
+            }
+        },
+        methods:{
+            addTodo:function(){
+                this.todolist.push({selected:false,value:this.todo,isShow:false});
+                this.todo='';
+            },
+            remove:function (t) {
+                this.todolist.$remove(t)
+            },
+            removecompleted:function () {
+                this.todolist=this.todolist.filter(function (item) {
+                    return !item.selected;
+                  /* if(item==false){
+                       return true;
+                   }else {
+                       return false;
+                    }*/
+
+                })
+            }
+
+        },
+        computed:{
+            count:function () {
+                var count=0;
+                this.todolist.forEach(function (item) {
+                    if(!item.selected){
+                        count++;
+                    }
+                })
+                return count
+            },
+            checkAll:{
+                set:function(val){
+                    //给checkAll属性添加一个setter（设置器）方法
+                    console.log('checkAll：'+val);
+                    this.todolist.forEach(function (item) {
+                        item.selected = val;
+                    })
+                }
+            }
+        }
+    })
+
+</script>
+</html>

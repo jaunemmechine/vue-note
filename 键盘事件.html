@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue扩展键盘事件</title>
+</head>
+<body>
+<div id="myapp">
+    <input type="text" @keydown.num1="info">
+</div>
+<script src="lib/vue-1.0.js"></script>
+<script type="application/javascript">
+    console.log(Vue.directive('on').keyCodes);
+    Vue.directive('on').keyCodes.shift=16;
+    Vue.directive('on').keyCodes.num1=49;
+   // Vue.config.keyCodes.f1=112;
+    var vm =new Vue({
+        el:"#myapp",
+        data:{
+
+        },
+        method:{
+            info:function () {
+                alert("欢迎使用")
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" href="lib/bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="lib/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <h1>购物车结算</h1>
+    <table class="table table-bordered">
+        <tr>
+            <th>书名</th>
+            <th>价格</th>
+            <th>数量</th>
+            <th>小计</th>
+            <th>操作</th>
+        </tr>
+        <tr  class="text-center" v-for="book in books">
+            <td>{{book.name}}</td>
+            <td>{{book.price}}</td>
+            <td>{{book.count}}</td>
+            <td>{{book.price*book.count}}</td>
+            <td><button type="button" class="btn btn-danger" @click="remove(book)">删除</button></td>
+        </tr>
+        <tr  class="text-left">
+            <td colspan="5">总价：{{total}}</td>
+        </tr>
+    </table>
+    <div class="form-group">
+        <label for="bookname" class="control-label">书名</label>
+        <input type="text" id="bookname" class="form-control" v-model="newBook.name">
+    </div>
+
+    <div class="form-group">
+        <label for="price" class="control-label">价格</label>
+        <input type="text" id="price" class="form-control" v-model="newBook.price">
+    </div>
+
+    <div class="form-group">
+        <label for="count" class="control-label">数量</label>
+        <input type="text" id="count" class="form-control" v-model="newBook.count">
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" @click="add">添加</button>
+    </div>
+</div>
+
+<script src="lib/vue-2.0.js"></script>
+<script type="application/javascript">
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            books:[{name:'java',price:75.8,count:1}],
+            newBook:{
+                name:'',
+                price:'',
+                count:''
+            }
+        },computed:{
+            total:function () {
+                var sum=0;
+                this.books.forEach(function(item){
+                    sum+=item.price*item.count;
+                });
+                return sum;
+
+            }
+        },
+        methods:{
+            add: function () {
+                this.books.push(this.newBook);
+                this.newBook={
+                    name:'',
+                    price:'',
+                    count:''
+                }
+            },
+            remove:function (book) {
+                this.books.$remove(book);
+
+            }
+        }
+    })
+</script>
+</body>
+</html>
